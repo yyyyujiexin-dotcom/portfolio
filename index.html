@@ -66,13 +66,14 @@
     <div class="wrap">
       <div class="section-head">
         <span class="section-index">00 <i>/</i> SHOWREEL</span>
-        <span class="section-note"><span class="tag-demo">演示片段</span> 当前为示例画面，正式投递前请替换为成片</span>
+        <span class="section-note"><span class="tag-demo">压缩全片</span> 站内为完整片子的压缩版，播放不流畅时可跳飞书云盘看原画质</span>
       </div>
 
       <div class="player-shell">
         <div class="player-frame" id="playerFrame">
           <video id="video" poster="assets/poster-01.jpg" preload="metadata" playsinline webkit-playsinline>
-            <source src="assets/reel-01.mp4" type="video/mp4">
+            <source id="srcWebm" src="assets/reel-01.webm" type="video/webm">
+            <source id="srcMp4" src="assets/reel-01.mp4" type="video/mp4">
             您的浏览器不支持 HTML5 视频播放。
           </video>
           <div class="player-vignette" aria-hidden="true"></div>
@@ -119,6 +120,17 @@
           </div>
           <p class="cap-award" id="capAward">法国 La CineFabrique 大学考试入围作品</p>
         </div>
+
+        <div class="player-fallback">
+          <div class="fallback-text">
+            <strong>播放不流畅？</strong>
+            <span>站内是压到可放进 GitHub 的完整片子，若卡顿或想看原画质，飞书云盘里有高清原片。</span>
+          </div>
+          <a class="fallback-btn" href="https://ecnilyw8pk2d.feishu.cn/drive/folder/MRJ0f18bflj34ldE61oci5Pcnkb?from=from_copylink" target="_blank" rel="noopener noreferrer">
+            前往飞书看完整正片
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -134,7 +146,7 @@
         <p>五部代表作品，覆盖剧情、科幻、纪录片与 AIGC 影像。点击任意作品即可在上方播放器中切换。</p>
       </div>
       <div class="works-grid" id="worksGrid"></div>
-      <p class="works-footnote">说明：卡片画面与播放器中的视频为演示素材，非作品成片。完整成片见页脚的作品集链接。</p>
+      <p class="works-footnote">说明：当前播放器里仍是演示素材；把原片放进 source/ 跑一次 transcode.py，即可换成压到 GitHub 可承载体积的完整片子。高清原片见飞书云盘。</p>
     </div>
   </section>
 
@@ -202,11 +214,20 @@
         <h2 class="footer-title">完整作品与简历<br>都在这里<span class="period">.</span></h2>
       </div>
       <div class="footer-contact">
-        <a class="btn btn-primary footer-btn" href="https://pan.baidu.com/s/12vghuM_S1L7BwVZSJCaRzw?pwd=hybv" target="_blank" rel="noopener noreferrer">
-          完整作品集 / 简历
-          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <p class="pan-note">百度网盘提取码 <code>hybv</code></p>
+        <div class="footer-entries">
+          <a class="entry-card entry-primary" href="https://ecnilyw8pk2d.feishu.cn/drive/folder/MRJ0f18bflj34ldE61oci5Pcnkb?from=from_copylink" target="_blank" rel="noopener noreferrer">
+            <span class="entry-label">完整正片 <i>/</i> FULL FILMS</span>
+            <span class="entry-title">飞书云盘 · 完整正片</span>
+            <span class="entry-desc">高清原片在线观看，播放不流畅时可跳转</span>
+            <span class="entry-arrow"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </a>
+          <a class="entry-card" href="https://pan.baidu.com/s/12vghuM_S1L7BwVZSJCaRzw?pwd=hybv" target="_blank" rel="noopener noreferrer">
+            <span class="entry-label">作品集与简历 <i>/</i> RESUME</span>
+            <span class="entry-title">百度网盘 · 作品集与简历</span>
+            <span class="entry-desc">提取码 <code>hybv</code></span>
+            <span class="entry-arrow"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </a>
+        </div>
       </div>
     </div>
     <div class="footer-watermark" aria-hidden="true">VIOLET LIU</div>

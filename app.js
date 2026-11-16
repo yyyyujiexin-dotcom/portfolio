@@ -1,12 +1,16 @@
 /* ===================================================================
    刘心语 Violet Liu · 作品集交互
    -------------------------------------------------------------------
-   替换成自己的成片：只需修改下面 WORKS 里每项的 src / poster，
-   以及 index.html 中 <video> 的默认 <source> 与 poster 即可。
+   替换成自己的成片：修改下面 WORKS 里每项的 webm / mp4 / poster，
+   以及 index.html 中 <video> 的两个默认 <source> 与 poster。
    素材放在 assets/ 目录，路径保持相对路径。
+   双源说明：WebM(VP9) 为主源、体积更小；MP4(H.264) 为兜底，
+   老版本 Safari 不支持 WebM 时浏览器会自动回退到 MP4。
+   完整正片（大文件）请勿放进网站，放到飞书云盘，通过页面入口跳转。
    =================================================================== */
 
 const PAN_URL = 'https://pan.baidu.com/s/12vghuM_S1L7BwVZSJCaRzw?pwd=hybv';
+const FEISHU_URL = 'https://ecnilyw8pk2d.feishu.cn/drive/folder/MRJ0f18bflj34ldE61oci5Pcnkb?from=from_copylink';
 
 const WORKS = [
   {
@@ -16,7 +20,8 @@ const WORKS = [
     role: '制片 / 导演助理',
     award: '法国 La CineFabrique 大学考试入围作品',
     duration: '04:00',
-    src: 'assets/reel-01.mp4',
+    webm: 'assets/reel-01.webm',
+    mp4: 'assets/reel-01.mp4',
     poster: 'assets/poster-01.jpg'
   },
   {
@@ -26,7 +31,8 @@ const WORKS = [
     role: '制片',
     award: '绿幕影棚调整为实景拍摄，统筹场地、设备与现场协调',
     duration: '18:00',
-    src: 'assets/reel-02.mp4',
+    webm: 'assets/reel-02.webm',
+    mp4: 'assets/reel-02.mp4',
     poster: 'assets/poster-02.jpg'
   },
   {
@@ -36,7 +42,8 @@ const WORKS = [
     role: '执行制片',
     award: '未来电影计划全国 20 强',
     duration: '23:00',
-    src: 'assets/reel-03.mp4',
+    webm: 'assets/reel-03.webm',
+    mp4: 'assets/reel-03.mp4',
     poster: 'assets/poster-03.jpg'
   },
   {
@@ -46,7 +53,8 @@ const WORKS = [
     role: '后期',
     award: '北京大学第四届东亚古籍数字人文国际论坛优秀典藏活化奖',
     duration: '17:00',
-    src: 'assets/reel-04.mp4',
+    webm: 'assets/reel-04.webm',
+    mp4: 'assets/reel-04.mp4',
     poster: 'assets/poster-04.jpg'
   },
   {
@@ -56,7 +64,8 @@ const WORKS = [
     role: '编导',
     award: '入围北京国际电影节·大学生电影节原创单元',
     duration: '20:00',
-    src: 'assets/reel-05.mp4',
+    webm: 'assets/reel-05.webm',
+    mp4: 'assets/reel-05.mp4',
     poster: 'assets/poster-05.jpg'
   }
 ];
@@ -147,9 +156,17 @@ function selectWork(index, autoPlay) {
   current = index;
 
   video.pause();
-  video.src = w.src;
   video.poster = w.poster;
-  video.load();
+  const webmSrc = $('srcWebm');
+  const mp4Src = $('srcMp4');
+  if (webmSrc && mp4Src) {
+    webmSrc.src = w.webm;
+    mp4Src.src = w.mp4;
+    video.load();
+  } else {
+    video.src = w.mp4;
+    video.load();
+  }
   setPlayingUI(false);
   progressFill.style.width = '0%';
   progressThumb.style.left = '0%';
