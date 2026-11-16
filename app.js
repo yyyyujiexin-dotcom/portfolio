@@ -1,22 +1,19 @@
-/* ===================================================================
-   刘心语 Violet Liu · 作品集交互
-   -------------------------------------------------------------------
-   替换成自己的成片：把原片按 01~05 命名放进 source/，跑 transcode.py --hls，
-   会自动生成 assets/hls/reel-XX/index.m3u8 分片、兜底 MP4 与封面。
-   播放链路：hls.js 走 HLS 分片（高清、边播边加载）→ Safari 原生 HLS
-   → 兜底整片 MP4。分片是大量几 MB 的小文件，绕开 GitHub 单文件 100MiB 限制。
-   =================================================================== */
+/* 作品集播放器：视频使用 MP4；第 1 项为 GitHub Releases 的公开授权 1080p 完整测试片。
+   更换视频需同步 WORKS 的 mp4 与 index.html 的默认 source。
+   其余 4 项保留原占位视频；测试片署名见页面说明与 Release。 */
+
+const PAN_URL = 'https://pan.baidu.com/s/12vghuM_S1L7BwVZSJCaRzw?pwd=hybv';
+const FEISHU_URL = 'https://ecnilyw8pk2d.feishu.cn/drive/folder/MRJ0f18bflj34ldE61oci5Pcnkb?from=from_copylink';
 
 const WORKS = [
   {
     id: '01',
-    title: '《Play Dead》',
-    meta: '2026 · 剧情短片 · 4 min',
-    role: '制片 / 导演助理',
-    award: '法国 La CineFabrique 大学考试入围作品',
-    duration: '04:00',
-    hls: 'assets/hls/reel-01/index.m3u8',
-    mp4: 'assets/reel-01.mp4',
+    title: '《Big Buck Bunny》· 1080p 测试',
+    meta: '公开授权动画 · 10 分 34 秒 · 1080p',
+    role: '完整影片播放测试（非本人作品）',
+    award: '© Blender Foundation · CC BY 3.0 · Sunflower 版',
+    duration: '10:34',
+    mp4: 'https://github.com/yyyyujiexin-dotcom/portfolio/releases/download/video-test-v1/big-buck-bunny-1080p.mp4',
     poster: 'assets/poster-01.jpg'
   },
   {
@@ -26,7 +23,7 @@ const WORKS = [
     role: '制片',
     award: '绿幕影棚调整为实景拍摄，统筹场地、设备与现场协调',
     duration: '18:00',
-    hls: 'assets/hls/reel-02/index.m3u8',
+    webm: 'assets/reel-02.webm',
     mp4: 'assets/reel-02.mp4',
     poster: 'assets/poster-02.jpg'
   },
@@ -37,7 +34,7 @@ const WORKS = [
     role: '执行制片',
     award: '未来电影计划全国 20 强',
     duration: '23:00',
-    hls: 'assets/hls/reel-03/index.m3u8',
+    webm: 'assets/reel-03.webm',
     mp4: 'assets/reel-03.mp4',
     poster: 'assets/poster-03.jpg'
   },
@@ -48,7 +45,7 @@ const WORKS = [
     role: '后期',
     award: '北京大学第四届东亚古籍数字人文国际论坛优秀典藏活化奖',
     duration: '17:00',
-    hls: 'assets/hls/reel-04/index.m3u8',
+    webm: 'assets/reel-04.webm',
     mp4: 'assets/reel-04.mp4',
     poster: 'assets/poster-04.jpg'
   },
@@ -59,7 +56,7 @@ const WORKS = [
     role: '编导',
     award: '入围北京国际电影节·大学生电影节原创单元',
     duration: '20:00',
-    hls: 'assets/hls/reel-05/index.m3u8',
+    webm: 'assets/reel-05.webm',
     mp4: 'assets/reel-05.mp4',
     poster: 'assets/poster-05.jpg'
   }
@@ -80,6 +77,7 @@ const fmtTC = (s) => {
 function renderWorks() {
   const grid = $('worksGrid');
   const playSvg = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5.5v13l10-6.5-10-6.5z" fill="currentColor"/></svg>';
+  const arrowSvg = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   grid.innerHTML = WORKS.map((w, i) => `
     <button class="work-card reveal${i === 0 ? ' is-active' : ''}" type="button" data-index="${i}" aria-label="播放 ${w.title}">
@@ -96,7 +94,14 @@ function renderWorks() {
         <p class="work-award">${w.award}</p>
       </div>
     </button>
-  `).join('');
+  `).join('') + `
+    <a class="work-card link-card reveal" href="${PAN_URL}" target="_blank" rel="noopener noreferrer">
+      <span class="link-label">06 / FULL PORTFOLIO</span>
+      <h3>完整作品集<br>与简历</h3>
+      <p>含五部成片、项目资料与个人简历。<br>百度网盘提取码 hybv</p>
+      <span class="link-arrow">前往查看 ${arrowSvg}</span>
+    </a>
+  `;
 
   grid.querySelectorAll('.work-card[data-index]').forEach((card) => {
     card.addEventListener('click', () => selectWork(Number(card.dataset.index), true));
@@ -112,61 +117,6 @@ const progressThumb = $('progressThumb');
 const rates = [1, 1.25, 1.5, 2, 0.75];
 let rateIdx = 0;
 let current = 0;
-let hls = null;
-
-/* ---------- HLS 加载（高清分片 / 边播边加载） ----------
-   1) Safari / iOS：原生 HLS
-   2) Chrome / Firefox / Edge：hls.js 走 .m3u8 分片
-   3) 都不支持：回退整片 MP4
-   分片是大量几 MB 的小文件，天然绕开 GitHub 单文件 100MiB 限制。 */
-function clearVideo() {
-  if (hls) { hls.destroy(); hls = null; }
-  video.pause();
-  video.removeAttribute('src');
-  while (video.firstChild) video.removeChild(video.firstChild);
-  video.load();
-}
-
-function loadWork(w, autoPlay) {
-  clearVideo();
-  video.poster = w.poster;
-
-  const tryPlay = () => {
-    if (!autoPlay) return;
-    const p = video.play();
-    if (p && p.catch) p.catch(() => {});
-  };
-
-  // Safari / iOS 原生支持 HLS，直接交给系统播放，最省电也最稳
-  if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    video.src = w.hls;
-    video.load();
-    tryPlay();
-    return;
-  }
-
-  if (typeof Hls !== 'undefined' && Hls.isSupported()) {
-    const instance = new Hls({ enableWorker: true, maxBufferLength: 30 });
-    hls = instance;
-    instance.loadSource(w.hls);
-    instance.attachMedia(video);
-    instance.on(Hls.Events.MANIFEST_PARSED, tryPlay);
-    instance.on(Hls.Events.ERROR, (_evt, data) => {
-      if (!data.fatal || hls !== instance) return;
-      // HLS 加载失败时降级到整片 MP4，保证一定能播
-      instance.destroy();
-      hls = null;
-      video.src = w.mp4;
-      video.load();
-      tryPlay();
-    });
-    return;
-  }
-
-  video.src = w.mp4;
-  video.load();
-  tryPlay();
-}
 
 function setPlayingUI(isPlaying) {
   frame.classList.toggle('playing', isPlaying);
@@ -197,7 +147,10 @@ function selectWork(index, autoPlay) {
   if (!w) return;
   current = index;
 
-  loadWork(w, autoPlay);
+  video.pause();
+  video.poster = w.poster;
+  video.src = w.mp4;
+  video.load();
   setPlayingUI(false);
   progressFill.style.width = '0%';
   progressThumb.style.left = '0%';
@@ -214,7 +167,8 @@ function selectWork(index, autoPlay) {
 
   if (autoPlay) {
     $('player').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    // 播放由 loadWork 在 MANIFEST_PARSED / 原生 ready 后触发，避免抢占异步加载
+    const p = video.play();
+    if (p && p.catch) p.catch(() => {});
   }
 }
 
@@ -345,4 +299,3 @@ function initPage() {
 renderWorks();
 initPlayer();
 initPage();
-loadWork(WORKS[0], false);   // 首屏挂载第一部片的 HLS 播放列表
