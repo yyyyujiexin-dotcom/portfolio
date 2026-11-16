@@ -7,9 +7,6 @@
    → 兜底整片 MP4。分片是大量几 MB 的小文件，绕开 GitHub 单文件 100MiB 限制。
    =================================================================== */
 
-const PAN_URL = 'https://pan.baidu.com/s/12vghuM_S1L7BwVZSJCaRzw?pwd=hybv';
-const FEISHU_URL = 'https://ecnilyw8pk2d.feishu.cn/drive/folder/MRJ0f18bflj34ldE61oci5Pcnkb?from=from_copylink';
-
 const WORKS = [
   {
     id: '01',
@@ -83,7 +80,6 @@ const fmtTC = (s) => {
 function renderWorks() {
   const grid = $('worksGrid');
   const playSvg = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5.5v13l10-6.5-10-6.5z" fill="currentColor"/></svg>';
-  const arrowSvg = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   grid.innerHTML = WORKS.map((w, i) => `
     <button class="work-card reveal${i === 0 ? ' is-active' : ''}" type="button" data-index="${i}" aria-label="播放 ${w.title}">
@@ -100,14 +96,7 @@ function renderWorks() {
         <p class="work-award">${w.award}</p>
       </div>
     </button>
-  `).join('') + `
-    <a class="work-card link-card reveal" href="${PAN_URL}" target="_blank" rel="noopener noreferrer">
-      <span class="link-label">06 / FULL PORTFOLIO</span>
-      <h3>完整作品集<br>与简历</h3>
-      <p>含五部成片、项目资料与个人简历。<br>百度网盘提取码 hybv</p>
-      <span class="link-arrow">前往查看 ${arrowSvg}</span>
-    </a>
-  `;
+  `).join('');
 
   grid.querySelectorAll('.work-card[data-index]').forEach((card) => {
     card.addEventListener('click', () => selectWork(Number(card.dataset.index), true));
