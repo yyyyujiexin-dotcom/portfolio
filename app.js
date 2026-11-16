@@ -1,6 +1,6 @@
-/* 作品集播放器：视频使用 MP4；第 1 项为 GitHub Releases 的公开授权 1080p 完整测试片。
-   更换视频需同步 WORKS 的 mp4 与 index.html 的默认 source。
-   其余 4 项保留原占位视频；测试片署名见页面说明与 Release。 */
+/* 作品集播放器使用 GitHub Releases MP4 直链：第 1 项为完整 1080p 测试片，
+   第 2–5 项为不同场景的 20 秒 1080p 测试片，均非本人作品。
+   更换视频请更新 WORKS 的 mp4 / poster；第一项需同步 index.html 默认 source。 */
 
 const PAN_URL = 'https://pan.baidu.com/s/12vghuM_S1L7BwVZSJCaRzw?pwd=hybv';
 const FEISHU_URL = 'https://ecnilyw8pk2d.feishu.cn/drive/folder/MRJ0f18bflj34ldE61oci5Pcnkb?from=from_copylink';
@@ -8,11 +8,11 @@ const FEISHU_URL = 'https://ecnilyw8pk2d.feishu.cn/drive/folder/MRJ0f18bflj34ldE
 const WORKS = [
   {
     id: '01',
-    title: '《Big Buck Bunny》· 1080p 测试',
-    meta: '公开授权动画 · 10 分 34 秒 · 1080p',
-    role: '完整影片播放测试（非本人作品）',
-    award: '© Blender Foundation · CC BY 3.0 · Sunflower 版',
-    duration: '10:34',
+    title: '《Play Dead》',
+    meta: '2026 · 剧情短片 · 4 min',
+    role: '制片 / 导演助理',
+    award: '法国 La CineFabrique 大学考试入围作品',
+    duration: '04:00',
     mp4: 'https://github.com/yyyyujiexin-dotcom/portfolio/releases/download/video-test-v1/big-buck-bunny-1080p.mp4',
     poster: 'assets/poster-01.jpg'
   },
@@ -23,9 +23,8 @@ const WORKS = [
     role: '制片',
     award: '绿幕影棚调整为实景拍摄，统筹场地、设备与现场协调',
     duration: '18:00',
-    webm: 'assets/reel-02.webm',
-    mp4: 'assets/reel-02.mp4',
-    poster: 'assets/poster-02.jpg'
+    mp4: 'https://github.com/yyyyujiexin-dotcom/portfolio/releases/download/video-test-v2/bbb-scene-02-1080p.mp4',
+    poster: 'assets/test-poster-02.jpg'
   },
   {
     id: '03',
@@ -34,9 +33,8 @@ const WORKS = [
     role: '执行制片',
     award: '未来电影计划全国 20 强',
     duration: '23:00',
-    webm: 'assets/reel-03.webm',
-    mp4: 'assets/reel-03.mp4',
-    poster: 'assets/poster-03.jpg'
+    mp4: 'https://github.com/yyyyujiexin-dotcom/portfolio/releases/download/video-test-v2/bbb-scene-03-1080p.mp4',
+    poster: 'assets/test-poster-03.jpg'
   },
   {
     id: '04',
@@ -45,9 +43,8 @@ const WORKS = [
     role: '后期',
     award: '北京大学第四届东亚古籍数字人文国际论坛优秀典藏活化奖',
     duration: '17:00',
-    webm: 'assets/reel-04.webm',
-    mp4: 'assets/reel-04.mp4',
-    poster: 'assets/poster-04.jpg'
+    mp4: 'https://github.com/yyyyujiexin-dotcom/portfolio/releases/download/video-test-v2/bbb-scene-04-1080p.mp4',
+    poster: 'assets/test-poster-04.jpg'
   },
   {
     id: '05',
@@ -56,9 +53,8 @@ const WORKS = [
     role: '编导',
     award: '入围北京国际电影节·大学生电影节原创单元',
     duration: '20:00',
-    webm: 'assets/reel-05.webm',
-    mp4: 'assets/reel-05.mp4',
-    poster: 'assets/poster-05.jpg'
+    mp4: 'https://github.com/yyyyujiexin-dotcom/portfolio/releases/download/video-test-v2/bbb-scene-05-1080p.mp4',
+    poster: 'assets/test-poster-05.jpg'
   }
 ];
 
