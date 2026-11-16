@@ -1,12 +1,10 @@
 /* ===================================================================
    刘心语 Violet Liu · 作品集交互
    -------------------------------------------------------------------
-   替换成自己的成片：修改下面 WORKS 里每项的 webm / mp4 / poster，
-   以及 index.html 中 <video> 的两个默认 <source> 与 poster。
-   素材放在 assets/ 目录，路径保持相对路径。
-   双源说明：WebM(VP9) 为主源、体积更小；MP4(H.264) 为兜底，
-   老版本 Safari 不支持 WebM 时浏览器会自动回退到 MP4。
-   完整正片（大文件）请勿放进网站，放到飞书云盘，通过页面入口跳转。
+   替换成自己的成片：把原片按 01~05 命名放进 source/，跑 transcode.py --hls，
+   会自动生成 assets/hls/reel-XX/index.m3u8 分片、兜底 MP4 与封面。
+   播放链路：hls.js 走 HLS 分片（高清、边播边加载）→ Safari 原生 HLS
+   → 兜底整片 MP4。分片是大量几 MB 的小文件，绕开 GitHub 单文件 100MiB 限制。
    =================================================================== */
 
 const PAN_URL = 'https://pan.baidu.com/s/12vghuM_S1L7BwVZSJCaRzw?pwd=hybv';
@@ -20,7 +18,7 @@ const WORKS = [
     role: '制片 / 导演助理',
     award: '法国 La CineFabrique 大学考试入围作品',
     duration: '04:00',
-    webm: 'assets/reel-01.webm',
+    hls: 'assets/hls/reel-01/index.m3u8',
     mp4: 'assets/reel-01.mp4',
     poster: 'assets/poster-01.jpg'
   },
@@ -31,7 +29,7 @@ const WORKS = [
     role: '制片',
     award: '绿幕影棚调整为实景拍摄，统筹场地、设备与现场协调',
     duration: '18:00',
-    webm: 'assets/reel-02.webm',
+    hls: 'assets/hls/reel-02/index.m3u8',
     mp4: 'assets/reel-02.mp4',
     poster: 'assets/poster-02.jpg'
   },
@@ -42,7 +40,7 @@ const WORKS = [
     role: '执行制片',
     award: '未来电影计划全国 20 强',
     duration: '23:00',
-    webm: 'assets/reel-03.webm',
+    hls: 'assets/hls/reel-03/index.m3u8',
     mp4: 'assets/reel-03.mp4',
     poster: 'assets/poster-03.jpg'
   },
@@ -53,7 +51,7 @@ const WORKS = [
     role: '后期',
     award: '北京大学第四届东亚古籍数字人文国际论坛优秀典藏活化奖',
     duration: '17:00',
-    webm: 'assets/reel-04.webm',
+    hls: 'assets/hls/reel-04/index.m3u8',
     mp4: 'assets/reel-04.mp4',
     poster: 'assets/poster-04.jpg'
   },
@@ -64,7 +62,7 @@ const WORKS = [
     role: '编导',
     award: '入围北京国际电影节·大学生电影节原创单元',
     duration: '20:00',
-    webm: 'assets/reel-05.webm',
+    hls: 'assets/hls/reel-05/index.m3u8',
     mp4: 'assets/reel-05.mp4',
     poster: 'assets/poster-05.jpg'
   }
@@ -125,6 +123,61 @@ const progressThumb = $('progressThumb');
 const rates = [1, 1.25, 1.5, 2, 0.75];
 let rateIdx = 0;
 let current = 0;
+let hls = null;
+
+/* ---------- HLS 加载（高清分片 / 边播边加载） ----------
+   1) Safari / iOS：原生 HLS
+   2) Chrome / Firefox / Edge：hls.js 走 .m3u8 分片
+   3) 都不支持：回退整片 MP4
+   分片是大量几 MB 的小文件，天然绕开 GitHub 单文件 100MiB 限制。 */
+function clearVideo() {
+  if (hls) { hls.destroy(); hls = null; }
+  video.pause();
+  video.removeAttribute('src');
+  while (video.firstChild) video.removeChild(video.firstChild);
+  video.load();
+}
+
+function loadWork(w, autoPlay) {
+  clearVideo();
+  video.poster = w.poster;
+
+  const tryPlay = () => {
+    if (!autoPlay) return;
+    const p = video.play();
+    if (p && p.catch) p.catch(() => {});
+  };
+
+  // Safari / iOS 原生支持 HLS，直接交给系统播放，最省电也最稳
+  if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = w.hls;
+    video.load();
+    tryPlay();
+    return;
+  }
+
+  if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+    const instance = new Hls({ enableWorker: true, maxBufferLength: 30 });
+    hls = instance;
+    instance.loadSource(w.hls);
+    instance.attachMedia(video);
+    instance.on(Hls.Events.MANIFEST_PARSED, tryPlay);
+    instance.on(Hls.Events.ERROR, (_evt, data) => {
+      if (!data.fatal || hls !== instance) return;
+      // HLS 加载失败时降级到整片 MP4，保证一定能播
+      instance.destroy();
+      hls = null;
+      video.src = w.mp4;
+      video.load();
+      tryPlay();
+    });
+    return;
+  }
+
+  video.src = w.mp4;
+  video.load();
+  tryPlay();
+}
 
 function setPlayingUI(isPlaying) {
   frame.classList.toggle('playing', isPlaying);
@@ -155,18 +208,7 @@ function selectWork(index, autoPlay) {
   if (!w) return;
   current = index;
 
-  video.pause();
-  video.poster = w.poster;
-  const webmSrc = $('srcWebm');
-  const mp4Src = $('srcMp4');
-  if (webmSrc && mp4Src) {
-    webmSrc.src = w.webm;
-    mp4Src.src = w.mp4;
-    video.load();
-  } else {
-    video.src = w.mp4;
-    video.load();
-  }
+  loadWork(w, autoPlay);
   setPlayingUI(false);
   progressFill.style.width = '0%';
   progressThumb.style.left = '0%';
@@ -183,8 +225,7 @@ function selectWork(index, autoPlay) {
 
   if (autoPlay) {
     $('player').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    const p = video.play();
-    if (p && p.catch) p.catch(() => {});
+    // 播放由 loadWork 在 MANIFEST_PARSED / 原生 ready 后触发，避免抢占异步加载
   }
 }
 
@@ -315,3 +356,4 @@ function initPage() {
 renderWorks();
 initPlayer();
 initPage();
+loadWork(WORKS[0], false);   // 首屏挂载第一部片的 HLS 播放列表

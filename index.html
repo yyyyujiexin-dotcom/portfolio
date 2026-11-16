@@ -71,11 +71,7 @@
 
       <div class="player-shell">
         <div class="player-frame" id="playerFrame">
-          <video id="video" poster="assets/poster-01.jpg" preload="metadata" playsinline webkit-playsinline>
-            <source id="srcWebm" src="assets/reel-01.webm" type="video/webm">
-            <source id="srcMp4" src="assets/reel-01.mp4" type="video/mp4">
-            您的浏览器不支持 HTML5 视频播放。
-          </video>
+          <video id="video" poster="assets/poster-01.jpg" preload="metadata" playsinline webkit-playsinline></video>
           <div class="player-vignette" aria-hidden="true"></div>
 
           <div class="player-topbar" aria-hidden="true">
@@ -239,6 +235,7 @@
   </div>
 </footer>
 
+<script src="vendor/hls.min.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
