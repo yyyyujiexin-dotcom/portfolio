@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0B0B0D">
+<meta name="description" content="刘心语 Violet Liu · 影视制片 / 后期统筹 / 国际发行作品集。中国传媒大学新闻与传播硕士，2027 届。">
+<title>刘心语 Violet Liu · 影视制片作品集</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+<header class="site-header" id="siteHeader">
+  <a class="brand" href="#top" aria-label="回到顶部">
+    <span class="brand-mark">VL</span>
+    <span class="brand-text">刘心语 <em>Violet Liu</em></span>
+  </a>
+  <nav class="nav" id="nav" aria-label="主导航">
+    <a href="#player">作品集</a>
+    <a href="#works">精选作品</a>
+    <a href="#about">关于我</a>
+    <a href="#contact">更多</a>
+  </nav>
+  <a class="header-cta" href="https://pan.baidu.com/s/12vghuM_S1L7BwVZSJCaRzw?pwd=hybv" target="_blank" rel="noopener noreferrer">
+    <span>完整作品集</span>
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="展开菜单" aria-expanded="false" aria-controls="nav">
+    <span></span><span></span>
+  </button>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="wrap hero-inner">
+      <div class="hero-eyebrow"><span class="live-dot" aria-hidden="true"></span> PORTFOLIO 2027 <span class="sep">/</span> 影视制片 · 后期 · 国际发行</div>
+      <h1 class="hero-title">刘心语<span class="hero-title-en">Violet&nbsp;Liu</span></h1>
+      <p class="hero-role">影视制片 <i>/</i> 后期统筹 <i>/</i> 国际发行</p>
+      <p class="hero-desc">中国传媒大学新闻与传播硕士（2027 届），研究方向为新媒体视听传播与互动影视。从前期筹备、现场执行到后期交付与国际电影节协作，参与 5 部短片及长片项目。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#player">
+          <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M6 4.5v9l7.5-4.5L6 4.5z" fill="currentColor"/></svg>
+          观看作品集
+        </a>
+        <a class="btn btn-ghost" href="https://pan.baidu.com/s/12vghuM_S1L7BwVZSJCaRzw?pwd=hybv" target="_blank" rel="noopener noreferrer">
+          简历与完整作品
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <dl class="hero-stats">
+        <div><dt>05</dt><dd>代表作品</dd></div>
+        <div><dt>03</dt><dd>影视机构实习</dd></div>
+        <div><dt>02</dt><dd>届平遥国际电影展</dd></div>
+      </dl>
+    </div>
+    <div class="filmstrip" aria-hidden="true"></div>
+  </section>
+
+  <!-- PLAYER -->
+  <section class="player-section" id="player">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-index">00 <i>/</i> SHOWREEL</span>
+        <span class="section-note"><span class="tag-demo">演示片段</span> 当前为示例画面，正式投递前请替换为成片</span>
+      </div>
+
+      <div class="player-shell">
+        <div class="player-frame" id="playerFrame">
+          <video id="video" poster="assets/poster-01.jpg" preload="metadata" playsinline webkit-playsinline>
+            <source src="assets/reel-01.mp4" type="video/mp4">
+            您的浏览器不支持 HTML5 视频播放。
+          </video>
+          <div class="player-vignette" aria-hidden="true"></div>
+
+          <div class="player-topbar" aria-hidden="true">
+            <span class="rec"><i></i> NOW PLAYING</span>
+            <span id="playerTc">TC 00:00:00:00</span>
+          </div>
+
+          <button class="big-play" id="bigPlay" aria-label="播放视频">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5.5v13l10-6.5-10-6.5z" fill="currentColor"/></svg>
+          </button>
+
+          <div class="controls" id="controls">
+            <button class="ctrl" id="playBtn" aria-label="播放">
+              <svg class="ic-play" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5.5v13l10-6.5-10-6.5z" fill="currentColor"/></svg>
+              <svg class="ic-pause" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5h3v14H8V5zm5 0h3v14h-3V5z" fill="currentColor"/></svg>
+            </button>
+            <span class="time" id="curTime">00:00</span>
+            <div class="progress" id="progress" role="slider" tabindex="0" aria-label="播放进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+              <div class="progress-thumb" id="progressThumb"></div>
+            </div>
+            <span class="time" id="durTime">00:00</span>
+            <button class="ctrl" id="muteBtn" aria-label="静音">
+              <svg class="ic-vol" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              <svg class="ic-muted" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M17 9l5 6m0-6l-5 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </button>
+            <input class="volume" id="volume" type="range" min="0" max="1" step="0.05" value="1" aria-label="音量">
+            <button class="ctrl rate" id="rateBtn" aria-label="播放速度">1.0×</button>
+            <button class="ctrl" id="fsBtn" aria-label="全屏">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="player-caption">
+          <div class="cap-main">
+            <span class="cap-index" id="capIndex">01</span>
+            <div>
+              <h3 id="capTitle">《Play Dead》</h3>
+              <p id="capMeta">2026 · 剧情短片 · 4 min · 制片 / 导演助理</p>
+            </div>
+          </div>
+          <p class="cap-award" id="capAward">法国 La CineFabrique 大学考试入围作品</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKS -->
+  <section class="works" id="works">
+    <div class="wrap">
+      <div class="section-intro">
+        <div>
+          <span class="section-index">01 <i>/</i> SELECTED WORKS</span>
+          <h2>精选作品</h2>
+        </div>
+        <p>五部代表作品，覆盖剧情、科幻、纪录片与 AIGC 影像。点击任意作品即可在上方播放器中切换。</p>
+      </div>
+      <div class="works-grid" id="worksGrid"></div>
+      <p class="works-footnote">说明：卡片画面与播放器中的视频为演示素材，非作品成片。完整成片见页脚的作品集链接。</p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="wrap">
+      <div class="section-intro">
+        <div>
+          <span class="section-index">02 <i>/</i> ABOUT &amp; EXPERIENCE</span>
+          <h2>关于我</h2>
+        </div>
+        <p>影视项目全流程执行与跨团队协同，是我的日常，也是我最想带进下一个剧组的能力。</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-col">
+          <p class="about-lead">熟悉影视项目从前期筹备、人员招募、场地与设备协调，到现场执行、后期跟进的完整流程。</p>
+          <p class="about-body">具备短片制片执行、后期跟进及国际电影节协作经验；能在高强度拍摄节奏下处理现场突发问题、协调跨团队沟通，并可用英文完成邮件与现场对接。目前于视幻文化 Parallax Films 参与长片国际发行工作。</p>
+
+          <h3 class="sub-head">教育背景 <span>EDUCATION</span></h3>
+          <ul class="timeline">
+            <li>
+              <span class="tl-date">2024.09 — 2027.06</span>
+              <div><strong>中国传媒大学 · 新闻与传播 硕士</strong><p>研究方向：新媒体视听传播、互动影视</p></div>
+            </li>
+            <li>
+              <span class="tl-date">2026.02 — 2026.06</span>
+              <div><strong>中国台湾艺术大学 · 电影学系 交换生</strong><p>修读电影专题田野调查、剧本写作、电影表演；参与国际团队短片创作，任制片兼导演助理</p></div>
+            </li>
+            <li>
+              <span class="tl-date">2020.09 — 2024.06</span>
+              <div><strong>浙江传媒学院 · 广播电视学 本科</strong><p>曾任校新闻社团负责人；毕业纪录片《GOAL! 蒲公英少年》入围北京国际电影节·大学生电影节原创单元</p></div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="about-col">
+          <h3 class="sub-head">专业能力 <span>CAPABILITIES</span></h3>
+          <div class="skills">
+            <div class="skill"><span class="skill-num">01</span><div><strong>全流程制片</strong><p>前期调研、方案筹备、通告排期、场地与设备协调、人员安排、预算报销、现场调度</p></div></div>
+            <div class="skill"><span class="skill-num">02</span><div><strong>拍摄协调与后期跟进</strong><p>跨部门及外部供应商对接、进度与版本管理，可独立负责小型项目全流程</p></div></div>
+            <div class="skill"><span class="skill-num">03</span><div><strong>内容项目执行</strong><p>短片及活动类项目执行经验，适应出差与高强度拍摄节奏</p></div></div>
+            <div class="skill"><span class="skill-num">04</span><div><strong>语言能力</strong><p>中文（母语）；英文工作沟通流利，可用于邮件及现场对接</p></div></div>
+          </div>
+
+          <h3 class="sub-head">实习与项目经历 <span>EXPERIENCE</span></h3>
+          <ul class="timeline compact">
+            <li><span class="tl-date">2026.07 — 至今</span><div><strong>视幻文化 Parallax Films · 长片国际发行助理</strong><p>电影节报名与物料交付、DCP / 预告片 / 海报 / 字幕核对，英文邮件对接海外电影节及买家</p></div></li>
+            <li><span class="tl-date">2025.12 — 2026.02</span><div><strong>浙江华策影视 · 后期制片助理</strong><p>跟进剪辑、调色、声音及特效流程，独立对接外部合作方，负责素材与成片版本归档</p></div></li>
+            <li><span class="tl-date">2025.01 — 2025.12</span><div><strong>万达影视传媒（儒意电影）· 制片助理</strong><p>选题挖掘与剧本 IP 评估、立项报审报奖；金鸡电影创投大会与海浪电影周项目评审支持</p></div></li>
+            <li><span class="tl-date">2024 / 2025</span><div><strong>第八、九届平遥国际电影展 · 内容及媒体公关支持</strong><p>23 场新闻发布会现场拍摄与素材回传、官方微博核心文案策划，连续两届获评优秀志愿者</p></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <span class="section-index">03 <i>/</i> PORTFOLIO</span>
+        <h2 class="footer-title">完整作品与简历<br>都在这里<span class="period">.</span></h2>
+      </div>
+      <div class="footer-contact">
+        <a class="btn btn-primary footer-btn" href="https://pan.baidu.com/s/12vghuM_S1L7BwVZSJCaRzw?pwd=hybv" target="_blank" rel="noopener noreferrer">
+          完整作品集 / 简历
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <p class="pan-note">百度网盘提取码 <code>hybv</code></p>
+      </div>
+    </div>
+    <div class="footer-watermark" aria-hidden="true">VIOLET LIU</div>
+    <div class="footer-bottom">
+      <span>© 2026 刘心语 Violet Liu · 影视制片作品集</span>
+      <span>中国传媒大学 · 2027 届</span>
+      <a href="#top">回到顶部 ↑</a>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
