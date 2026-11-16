@@ -1,13 +1,6 @@
-/* ===================================================================
-   刘心语 Violet Liu · 作品集交互
-   -------------------------------------------------------------------
-   替换成自己的成片：修改下面 WORKS 里每项的 webm / mp4 / poster，
-   以及 index.html 中 <video> 的两个默认 <source> 与 poster。
-   素材放在 assets/ 目录，路径保持相对路径。
-   双源说明：WebM(VP9) 为主源、体积更小；MP4(H.264) 为兜底，
-   老版本 Safari 不支持 WebM 时浏览器会自动回退到 MP4。
-   完整正片（大文件）请勿放进网站，放到飞书云盘，通过页面入口跳转。
-   =================================================================== */
+/* 作品集播放器：视频使用 MP4；第 1 项为 GitHub Releases 的公开授权 1080p 完整测试片。
+   更换视频需同步 WORKS 的 mp4 与 index.html 的默认 source。
+   其余 4 项保留原占位视频；测试片署名见页面说明与 Release。 */
 
 const PAN_URL = 'https://pan.baidu.com/s/12vghuM_S1L7BwVZSJCaRzw?pwd=hybv';
 const FEISHU_URL = 'https://ecnilyw8pk2d.feishu.cn/drive/folder/MRJ0f18bflj34ldE61oci5Pcnkb?from=from_copylink';
@@ -15,13 +8,12 @@ const FEISHU_URL = 'https://ecnilyw8pk2d.feishu.cn/drive/folder/MRJ0f18bflj34ldE
 const WORKS = [
   {
     id: '01',
-    title: '《Play Dead》',
-    meta: '2026 · 剧情短片 · 4 min',
-    role: '制片 / 导演助理',
-    award: '法国 La CineFabrique 大学考试入围作品',
-    duration: '04:00',
-    webm: 'assets/reel-01.webm',
-    mp4: 'assets/reel-01.mp4',
+    title: '《Big Buck Bunny》· 1080p 测试',
+    meta: '公开授权动画 · 10 分 34 秒 · 1080p',
+    role: '完整影片播放测试（非本人作品）',
+    award: '© Blender Foundation · CC BY 3.0 · Sunflower 版',
+    duration: '10:34',
+    mp4: 'https://github.com/yyyyujiexin-dotcom/portfolio/releases/download/video-test-v1/big-buck-bunny-1080p.mp4',
     poster: 'assets/poster-01.jpg'
   },
   {
@@ -157,16 +149,8 @@ function selectWork(index, autoPlay) {
 
   video.pause();
   video.poster = w.poster;
-  const webmSrc = $('srcWebm');
-  const mp4Src = $('srcMp4');
-  if (webmSrc && mp4Src) {
-    webmSrc.src = w.webm;
-    mp4Src.src = w.mp4;
-    video.load();
-  } else {
-    video.src = w.mp4;
-    video.load();
-  }
+  video.src = w.mp4;
+  video.load();
   setPlayingUI(false);
   progressFill.style.width = '0%';
   progressThumb.style.left = '0%';
